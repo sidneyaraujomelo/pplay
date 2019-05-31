@@ -90,7 +90,7 @@ class Animation(gameimage.GameImage):
                     self.playing = False
             
     """Draws the current frame on the screen."""
-    def draw(self):
+    def draw(self, flipped_x=False, flipped_y=False):
         if(self.drawable):
             # Clips the frame (rect on the image)
             clip_rect = pygame.Rect(self.curr_frame*self.width,
@@ -103,7 +103,10 @@ class Animation(gameimage.GameImage):
             self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
             # Blits the image with the rect and clip_rect clipped
-            window.Window.get_screen().blit(self.image, self.rect, area=clip_rect)
+            if (flipped_x or flipped_y):
+                window.Window.get_screen().blit(pygame.transform.flip(self.image, flipped_x, flipped_y), self.rect, area=clip_rect)
+            else:
+                window.Window.get_screen().blit(self.image, self.rect, area=clip_rect)
         
     
     #----------------------PLAYING CONTROL METHODS----------------------
